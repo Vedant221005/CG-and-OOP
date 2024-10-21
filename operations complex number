@@ -5,65 +5,70 @@ Implement The following operations:
 3. Overloaded operator * to multiply two complex numbers.
 4. Overloaded << and >> to print and read Complex Numbers. 
 
-#include<iostream>
+#include <iostream>
 using namespace std;
-class complex
-{
-float x;float y;
+
+class complex {
+    float x; // Real part
+    float y; // Imaginary part
 public:
-complex() // Default constructor
-{
-x=0;y=0;
-}
-complex operator+(complex);//this is declaration of function to
-overload + Operator
-complex operator*(complex);//function to overload * Operator
-friend istream &operator>>(istream &input,complex &t)
-{
-cout<<"Enter the real part";input>>t.x;
-cout<<"Enterthe imaginary part";
-input>>t.y;
-}
-friend ostream &operator<<(ostream &output,complex &t)
-{
-output<<t.x<<"+"<<t.y<<"i\n";
-}
-}; //class closing
-complex complex::operator+(complex c)
-{
-complex temp;
-temp.x=x+c.x;
-temp.y=y+c.y;
-return(temp);
+    complex() { // Default constructor
+        x = 0;
+        y = 0;
+    }
+
+    complex operator+(const complex& c); // Function to overload + Operator
+    complex operator*(const complex& c); // Function to overload * Operator
+
+    // Overload input operator
+    friend istream &operator>>(istream &input, complex &t) {
+        cout << "Enter the real part: ";
+        input >> t.x;
+        cout << "Enter the imaginary part: ";
+        input >> t.y;
+        return input; // Return input stream
+    }
+
+    // Overload output operator
+    friend ostream &operator<<(ostream &output, const complex &t) {
+        output << t.x << "+" << t.y << "i";
+        return output; // Return output stream
+    }
+};
+
+// Definition of operator+ function
+complex complex::operator+(const complex& c) {
+    complex temp;
+    temp.x = x + c.x;
+    temp.y = y + c.y;
+    return temp;
 }
 
-complex complex::operator*(complex c)
-{
-complex temp2;
-temp2.x=(x*c.x)-(y*c.y);
-temp2.y=(y*c.x)+(x*c.y);
-return(temp2);
+// Definition of operator* function
+complex complex::operator*(const complex& c) {
+    complex temp2;
+    temp2.x = (x * c.x) - (y * c.y);
+    temp2.y = (y * c.x) + (x * c.y);
+    return temp2;
 }
 
-int main()
-{
-complex c1,c2,c3,c4;//object of class
-cout<<"Default constructor value=\n";
-cout<<c1;
-cout<<"\n Enter the 1st number\n";
-cin>>c1;
-cout<<"\n Enter the 2nd number\n";
-//cin>>c1;
-cin>>c2;
-c3=c1+c2;
-c4=c1*c2;
-cout<<"\nThe firstnumber is";
-cout<<c1;
-cout<<"\nThe secondnumber is";
-cout<<c2;
-cout<<"\nThe addition is";
-cout<<c3;
-cout<<"\nThe multiplication is";
-cout<<c4;
-return 0;
+int main() {
+    complex c1, c2, c3, c4; // Objects of class
+    cout << "Default constructor value: ";
+    cout << c1 << endl; // Using the overloaded output operator
+
+    cout << "\nEnter the 1st number\n";
+    cin >> c1;
+    cout << "\nEnter the 2nd number\n";
+    cin >> c2;
+
+    c3 = c1 + c2; // Addition
+    c4 = c1 * c2; // Multiplication
+
+    cout << "\nThe first number is: " << c1;
+    cout << "\nThe second number is: " << c2;
+    cout << "\nThe addition is: " << c3;
+    cout << "\nThe multiplication is: " << c4 << endl;
+
+    return 0;
 }
